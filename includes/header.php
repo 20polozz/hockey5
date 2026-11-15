@@ -25,6 +25,7 @@
 
     <a class="top-brand" href="<?php echo url('home'); ?>" aria-label="<?php echo __('header.title'); ?>">
       <span class="top-brand-text">HOCKEY<span class="top-brand-accent">5</span></span>
+      <span class="top-brand-version" style="font-size:11px; font-weight:700; opacity:0.6; margin-left:6px; vertical-align:super;">v1</span>
     </a>
 
     <div class="top-social">
