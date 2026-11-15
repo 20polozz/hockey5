@@ -1,0 +1,344 @@
+:root {
+  --hg-bg1: #071824;
+  --hg-bg2: #000b12;
+  --hg-accent: #ffb400;
+  --hg-accent2: #19c6e6;
+  --hg-card: #071f2c;
+  --hg-card2: #05202b;
+}
+
+/*
+  IMPORTANT:
+  Keep the SAME background across the whole website.
+  This page originally used a different green/teal gradient.
+  We override it to match the global background defined in assets/styles.css.
+*/
+body.hoqueigrid {
+  background:
+    radial-gradient(1200px 700px at 85% 60%, rgba(0, 160, 190, .28), transparent 60%),
+    radial-gradient(900px 600px at 15% 65%, rgba(120, 80, 220, .25), transparent 55%),
+    linear-gradient(180deg, #050a1f 0%, #04081a 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.hg-wrap {
+  min-height: calc(100vh - 72px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 34px 16px 60px;
+}
+
+.hg-title {
+  margin: 0 0 18px;
+  text-align: center;
+  font-weight: 900;
+  letter-spacing: .6px;
+  font-size: clamp(28px, 3vw, 38px);
+}
+
+.hg-league {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 0.5em;
+  font-weight: 800;
+  color: rgba(255, 255, 255, .82);
+  letter-spacing: .2px;
+}
+
+.hg-title .accent {
+  color: var(--hg-accent);
+}
+
+.hg-card {
+  width: min(980px, 96vw);
+  border-radius: 22px;
+  padding: 26px;
+  background: linear-gradient(180deg, rgba(7, 31, 44, .92), rgba(4, 20, 28, .92));
+  border: 1px solid rgba(255, 180, 0, .55);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .45);
+}
+
+.hg-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .hg-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hg-preview {
+  /* Desktop: preview pequeño a la izquierda */
+  grid-column: auto;
+  width: 100%;
+  max-width: 320px;
+  background: rgba(0, 0, 0, .18);
+  border-radius: 16px;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, .08);
+}
+
+/*
+  Preview (logo) block in the selector page
+  - Centered logo
+  - No distortion (contain)
+  - Controlled max width so it doesn't dominate the card
+*/
+.hg-preview-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 140px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, .18);
+  border: 1px solid rgba(255, 255, 255, .08);
+  padding: 16px 12px;
+}
+
+.hg-preview-img {
+  width: 100%;
+  max-width: 160px;
+  max-height: 90px;
+  object-fit: contain;
+  display: block;
+}
+
+.hg-preview-league {
+  font-weight: 800;
+  color: rgba(255, 255, 255, .85);
+}
+
+@media (max-width: 860px) {
+  .hg-preview {
+    max-width: none;
+  }
+}
+
+@media (max-width: 860px) {
+
+  /* Mobile: el preview pasa arriba a ancho completo */
+  .hg-preview {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Back-compat: if an <img> is placed directly under .hg-preview */
+.hg-preview>img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  display: block;
+}
+
+.hg-text p {
+  margin: 0 0 12px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, .88);
+  font-weight: 650;
+}
+
+.hg-text ul {
+  margin: 0 0 16px;
+  padding-left: 18px;
+  color: rgba(255, 255, 255, .85);
+}
+
+.hg-text li {
+  margin: 6px 0;
+}
+
+.hg-subtitle {
+  margin-top: 14px;
+  font-weight: 900;
+  color: rgba(255, 255, 255, .92);
+}
+
+.hg-pills {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hg-pill {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(255, 255, 255, .06);
+  color: rgba(255, 255, 255, .92);
+  font-weight: 850;
+  cursor: pointer;
+  user-select: none;
+}
+
+.hg-pill.active {
+  background: rgba(25, 198, 230, .25);
+  border-color: rgba(25, 198, 230, .55);
+}
+
+.hg-actions {
+  margin-top: 18px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.hg-start {
+  padding: 10px 18px;
+  border-radius: 12px;
+  border: 0;
+  background: var(--hg-accent);
+  color: #001018;
+  font-weight: 950;
+  cursor: pointer;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, .35);
+}
+
+.hg-start:hover {
+  filter: brightness(.97);
+}
+
+.hg-howto-section {
+  margin-top: 0;
+  padding: 80px 20px;
+  background: linear-gradient(180deg, #071c26 0%, #05141c 100%);
+  border-top: 1px solid rgba(0, 180, 200, .35);
+  border-bottom: 1px solid rgba(0, 180, 200, .35);
+}
+
+.hg-howto-inner {
+  max-width: 780px;
+  margin: 0 auto;
+  color: #fff;
+}
+
+.hg-howto-title {
+  font-size: 28px;
+  margin-bottom: 24px;
+  font-weight: 700;
+}
+
+.hg-howto-inner h3 {
+  margin-top: 28px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.hg-howto-inner p,
+.hg-howto-inner li {
+  line-height: 1.6;
+  font-size: 14.5px;
+  color: #dbe7ec;
+}
+
+.hg-howto-inner ul {
+  padding-left: 18px;
+}
+
+
+
+/* =========================================================
+   Fancy preview box (menu)
+   Only applies when .hg-preview-box--fancy is present
+   ========================================================= */
+.hg-preview-box--fancy {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(8, 28, 43, .95), rgba(0, 10, 18, .92));
+  border: 1px solid rgba(255, 255, 255, .12);
+  box-shadow: 0 22px 55px rgba(0, 0, 0, .55), inset 0 0 0 1px rgba(255, 255, 255, .05);
+  transform: perspective(900px) rotateX(6deg) rotateY(-8deg);
+  transition: transform .35s ease, box-shadow .35s ease;
+}
+
+.hg-preview-box--fancy:hover {
+  transform: perspective(900px) rotateX(0deg) rotateY(0deg) scale(1.03);
+  box-shadow: 0 26px 70px rgba(0, 0, 0, .65), inset 0 0 0 1px rgba(255, 255, 255, .07);
+}
+
+.hg-preview-box--fancy .hg-preview-glow {
+  position: absolute;
+  inset: -14px;
+  border-radius: 22px;
+  background: conic-gradient(from 0deg, var(--hg-accent2), var(--hg-accent), var(--hg-accent2));
+  filter: blur(22px);
+  opacity: .35;
+  animation: hgSpinGlow 6s linear infinite;
+  z-index: 0;
+}
+
+@keyframes hgSpinGlow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.hg-preview-box--fancy .hg-preview-img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: block;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  transform: scale(1.06);
+  transition: transform .35s ease;
+}
+
+.hg-preview-box--fancy:hover .hg-preview-img {
+  transform: scale(1.16);
+}
+
+/* Keep league badge readable over the overlay */
+.hg-preview-box--fancy .hg-preview-league {
+  position: absolute;
+  z-index: 2;
+  left: 14px;
+  bottom: 12px;
+  background: rgba(0, 0, 0, .55);
+  border: 1px solid rgba(255, 255, 255, .14);
+  padding: 6px 10px;
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+}
+
+/* Wordle text preview: center content nicely inside the fancy box */
+.hg-preview-box--text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 240px;
+  padding: 18px;
+}
+
+.hg-preview-box--text .hg-preview-text {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* ===== MENU ABANS DE JUGAR: preview image sense retallar (Wordle + Grid) ===== */
+.hg-preview-box--fancy .hg-preview-img {
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: none !important;
+  aspect-ratio: auto !important;
+  object-fit: contain !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+.hg-preview-box--fancy:hover .hg-preview-img {
+  transform: none !important;
+}

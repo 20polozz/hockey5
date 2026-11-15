@@ -1,0 +1,35 @@
+Options -Indexes
+
+RewriteEngine On
+
+# Block sensitive files
+<FilesMatch "\.(sql|md|log|bak|env|zip)$">
+  Require all denied
+</FilesMatch>
+
+# Block direct access to config files (even if PHP handler misbehaves)
+<FilesMatch "(^|/)(config|config\.sample)\.php$">
+  Require all denied
+</FilesMatch>
+
+# If a browser requests a .php directly, return 404 (except index.php and /api/)
+RewriteCond %{THE_REQUEST} \s/+([^\s?]+\.php) [NC]
+RewriteCond %1 !^index\.php$ [NC]
+RewriteCond %1 !^api/ [NC]
+RewriteCond %1 !^admin/ [NC]
+RewriteRule ^ - [R=404,L]
+
+# Explicitly skip routing for admin directory
+RewriteRule ^admin($|/) - [L]
+
+# Route all non-file/non-directory requests through index.php (pretty URLs)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L]
+
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>

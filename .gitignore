@@ -1,0 +1,8 @@
+# Credencials reals de la base de dades — mai al repositori.
+# Copia api/config.sample.php a api/config.php al servidor i omple-hi les dades reals.
+/api/config.php
+
+# Fitxers habituals a ignorar
+.DS_Store
+Thumbs.db
+*.log

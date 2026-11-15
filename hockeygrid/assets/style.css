@@ -1,0 +1,907 @@
+:root {
+  --bg1: #050b12;
+  --bg2: #02060b;
+
+  --grid: #0a1622;
+  --grid2: #06111b;
+
+  --line: #7aa6d5;
+  --line2: rgba(255, 255, 255, .12);
+
+  --cyan: #17c8ea;
+  --yellow: #ffb400;
+
+  --text: rgba(255, 255, 255, .92);
+  --muted: rgba(255, 255, 255, .75);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text, rgba(255, 255, 255, .92));
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  background:
+    radial-gradient(1200px 700px at 85% 60%, rgba(0, 160, 190, .28), transparent 60%),
+    radial-gradient(900px 600px at 15% 65%, rgba(120, 80, 220, .25), transparent 55%),
+    linear-gradient(180deg, #050a1f 0%, #04081a 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+/* Links */
+a {
+  color: inherit;
+  text-decoration: none
+}
+
+
+.page {
+  width: min(600px, 92vw);
+  margin: 0 auto;
+  padding: 24px 0 44px;
+  text-align: center;
+}
+
+/* Title like the example */
+.hero-title {
+  margin: 10px 0 18px;
+  font-size: 42px;
+  letter-spacing: .02em;
+  font-weight: 900;
+  font-style: italic;
+}
+
+.hero-accent {
+  color: var(--yellow);
+}
+
+/* Board */
+.board-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 128px repeat(3, 128px);
+  grid-template-rows: 128px repeat(3, 128px);
+  gap: 2px;
+  border: 2px solid var(--line);
+  background: rgba(0, 0, 0, .15);
+}
+
+/* Generic tile */
+.tile {
+  width: 128px;
+  height: 128px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, var(--grid) 0%, var(--grid2) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+
+/* Top-left: logo/title tile */
+.tile.brand {
+  background: linear-gradient(180deg, #081b2b 0%, #04101a 100%);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.brand .brand-text {
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1.05;
+  font-size: 18px;
+}
+
+.brand .brand-text .a {
+  color: var(--yellow);
+}
+
+.brand .brand-text .b {
+  color: #ffffff;
+}
+
+/* Header tiles (top row + left col) */
+.tile.header {
+  padding: 10px 8px 34px;
+}
+
+/* Header tiles (top row) */
+.tile.header.header-top {
+  /* No special styles needed, just avoid global .top conflict */
+}
+
+.header .logo {
+  width: 68px;
+  height: 68px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, .4));
+}
+
+/* Si no tens logos reals, fem una insígnia estil "logo" */
+.logo-badge {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 950;
+  letter-spacing: .06em;
+  background: rgba(255, 255, 255, .06);
+  border: 2px solid rgba(255, 255, 255, .12);
+  color: rgba(255, 255, 255, .92);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, .35);
+}
+
+.header .strip {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 28px;
+  background: rgba(255, 255, 255, .12);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  letter-spacing: .04em;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+/* Playable cells */
+.tile.playable {
+  cursor: pointer;
+}
+
+.plus {
+  display: none;
+}
+
+/* Player card inside cell */
+.player-card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.player-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.player-initials {
+  width: 92px;
+  height: 92px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(23, 200, 234, .16);
+  border: 1px solid rgba(23, 200, 234, .55);
+}
+
+.player-initials .big {
+  font-size: 30px;
+  font-weight: 950;
+  letter-spacing: .04em;
+}
+
+.player-initials .small {
+  margin-top: 6px;
+  font-size: 10px;
+  font-weight: 850;
+  opacity: .9;
+  max-width: 82px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Controls like example */
+.controls {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.input-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+#player-input {
+  width: min(360px, 70vw);
+  height: 32px;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, .65);
+  background: rgba(255, 255, 255, .75);
+  padding: 0 10px;
+  outline: none;
+  font-size: 13px;
+}
+
+.square-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 2px solid var(--yellow);
+  background: rgba(0, 0, 0, .18);
+  color: white;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.square-btn:hover {
+  background: rgba(0, 0, 0, .26);
+}
+
+.status {
+  margin-top: 8px;
+  text-align: center;
+  color: var(--muted);
+  font-weight: 650;
+}
+
+/* Autocomplete dropdown */
+.answerbar {
+  position: relative;
+}
+
+.suggestions {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 46px;
+  max-height: 190px;
+  overflow: auto;
+
+  border-radius: 14px;
+  background: rgba(8, 12, 20, .92);
+  border: 1px solid rgba(23, 200, 234, .55);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .45);
+
+  padding: 6px;
+  display: none;
+  z-index: 60;
+}
+
+.suggestions.show {
+  display: block;
+}
+
+.suggestion-item {
+  width: 100%;
+  display: block;
+
+  padding: 12px 14px;
+  border-radius: 12px;
+
+  border: 1px solid rgba(255, 255, 255, .06);
+  background: rgba(255, 255, 255, .02);
+  color: rgba(255, 255, 255, .92);
+
+  cursor: pointer;
+  font-weight: 750;
+  margin: 6px 0;
+}
+
+.suggestion-item:hover {
+  background: rgba(255, 255, 255, .05);
+  border-color: rgba(255, 255, 255, .12);
+}
+
+/* Scrollbar */
+.suggestions::-webkit-scrollbar {
+  width: 10px;
+}
+
+.suggestions::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, .03);
+  border-radius: 10px;
+}
+
+.suggestions::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, .18);
+  border-radius: 10px;
+}
+
+.suggestions::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, .26);
+}
+
+/* Toast (Wordle-like pill) */
+.toast {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 76px;
+  background: rgba(10, 10, 10, 0.92);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  max-width: min(520px, 92vw);
+  text-align: center;
+  font-weight: 700;
+  font-size: 15px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+.toast .t-title {
+  font-weight: 900;
+  margin: 0;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: .05em;
+  opacity: .8;
+}
+
+.toast .t-msg {
+  margin: 0;
+}
+
+@media (max-width: 520px) {
+  .grid {
+    grid-template-columns: 104px repeat(3, 104px);
+    grid-template-rows: 104px repeat(3, 104px);
+  }
+
+  .tile {
+    width: 104px;
+    height: 104px;
+  }
+
+  .header .logo {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+/* =========================
+   LAYOUT ANUNCIOS (3 columnas)
+   ========================= */
+
+.layout-ads {
+  width: min(1700px, 98vw);
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 26px;
+  padding: 16px 0 44px;
+}
+
+.ad-col {
+  flex: 0 0 300px;
+  width: 300px;
+  position: sticky;
+  top: 84px;
+  /* ajusta si tu header es más alto */
+}
+
+.ad-slot {
+  margin: 10px auto;
+  text-align: center;
+  overflow: hidden;
+}
+
+.sn_ad_label {
+  color: #FFFFFF;
+  font-size: 12px;
+  margin: 0 0 6px 0;
+  text-align: center;
+  opacity: .9;
+}
+
+/* El contenido central mantiene tu .page */
+.layout-ads .page {
+  margin: 0;
+}
+
+.layout-ads .content-col {
+  flex: 0 1 auto;
+}
+
+/* Responsive: en pantallas pequeñas ocultamos laterales */
+@media (max-width: 1200px) {
+  .ad-col {
+    display: none;
+  }
+
+  .layout-ads {
+    width: min(980px, 94vw);
+    padding-top: 18px;
+  }
+}
+
+/* Avis */
+.status.no-place {
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 18px;
+  margin-top: 8px;
+  text-shadow: 0 10px 25px rgba(0, 0, 0, .55);
+}
+
+/* --- Menú inicial --- */
+.league-menu {
+  padding-top: 34px;
+}
+
+/* … (la resta del menú es manté exactament igual) */
+
+.tile.playable.answer-filled.user-correct {
+  background: #1f8f3a !important;
+  border-color: #1f8f3a !important;
+  color: #fff !important;
+}
+
+.tile.playable.answer-filled.solution-fill.not-guessed {
+  background: #b3261e !important;
+  border-color: #b3261e !important;
+  color: #fff !important;
+}
+
+.tile.playable.answer-filled.user-correct .small,
+.tile.playable.answer-filled.solution-fill.not-guessed .small {
+  color: #fff !important;
+}
+
+/* =====================================================
+   🔧 MILLORA RESPONSIVE GRAELLA (MÒBIL – FINAL)
+   ===================================================== */
+
+.board-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 8px;
+}
+
+.grid {
+  --cell: clamp(64px, 22vw, 128px);
+  --gap: clamp(2px, 0.6vw, 6px);
+
+  grid-template-columns: var(--cell) repeat(3, var(--cell));
+  grid-template-rows: var(--cell) repeat(3, var(--cell));
+  gap: var(--gap);
+
+  border: 0;
+}
+
+
+.tile {
+  width: var(--cell);
+  height: var(--cell);
+}
+
+.hero-title {
+  font-size: clamp(26px, 7vw, 42px);
+  margin: 10px 0 14px;
+}
+
+.header .logo,
+.logo-badge {
+  width: clamp(40px, 12vw, 68px);
+  height: clamp(40px, 12vw, 68px);
+}
+
+.header .strip {
+  height: clamp(20px, 6vw, 28px);
+  font-size: clamp(9px, 2.6vw, 12px);
+}
+
+.brand .brand-text {
+  font-size: clamp(12px, 3.6vw, 18px);
+}
+
+.player-initials {
+  width: min(78%, 92px);
+  height: min(78%, 92px);
+}
+
+.player-initials .big {
+  font-size: clamp(18px, 5.8vw, 30px);
+}
+
+.player-initials .small {
+  font-size: clamp(8px, 2.4vw, 10px);
+  max-width: 90%;
+}
+
+@media (max-width: 520px) {
+
+  .page {
+    width: min(980px, 94vw);
+    padding: 18px 0 34px;
+  }
+
+  /* Manté el layout com a la imatge (en fila) */
+  .input-row {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+
+  #player-input {
+    flex: 1;
+    height: 36px;
+    font-size: 14px;
+    border-radius: 8px;
+  }
+
+  .square-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  .suggestions {
+    top: 42px;
+  }
+}
+
+
+
+/* =========================
+   FAQ SECTION
+========================= */
+
+.faq-section {
+  padding: 56px 0 70px;
+  border-top: 1px solid var(--line);
+}
+
+.faq-inner {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 18px;
+}
+
+.faq-title {
+  text-align: center;
+  margin: 0 0 28px;
+  font-size: clamp(22px, 3vw, 34px);
+  font-weight: 1000;
+  letter-spacing: .01em;
+  color: var(--text);
+}
+
+.faq-title span {
+  color: var(--brand2);
+  text-shadow: 0 10px 30px rgba(25, 211, 255, .18);
+}
+
+.faq-list {
+  display: grid;
+  gap: 50px;
+}
+
+.faq-item h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--brand2);
+}
+
+.faq-item p {
+  margin: 0;
+  color: var(--text);
+  opacity: .92;
+  line-height: 1.6;
+  max-width: 80ch;
+}
+
+.faq-item {
+  margin-bottom: 18px;
+}
+
+.faq-item:last-child {
+  margin-bottom: 0;
+}
+
+
+/* =========================
+   FAQ SECTION (refinada)
+========================= */
+.faq-section {
+  padding: 64px 0 72px;
+  border-top: 1px solid var(--line);
+  background: rgba(0, 0, 0, .10);
+}
+
+.faq-inner {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 26px 24px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, .12);
+  background: linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .02));
+  box-shadow: var(--shadow);
+}
+
+.faq-title {
+  text-align: center;
+  margin: 0 0 22px;
+  font-size: clamp(22px, 3vw, 34px);
+  font-weight: 1000;
+  letter-spacing: .01em;
+  color: var(--text);
+}
+
+.faq-title span {
+  color: var(--brand2);
+  text-shadow: 0 10px 30px rgba(25, 211, 255, .18);
+}
+
+.faq-list {
+  display: grid;
+  gap: 18px;
+}
+
+.faq-item {
+  padding: 14px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .03);
+  border: 1px solid rgba(255, 255, 255, .10);
+}
+
+.faq-item h3 {
+  margin: 0 0 8px;
+  font-size: 17px;
+  font-weight: 950;
+  color: var(--brand2);
+}
+
+.faq-item p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+  max-width: 75ch;
+}
+
+@media (max-width: 600px) {
+  .faq-inner {
+    padding: 20px 14px;
+  }
+
+  .faq-item {
+    padding: 12px 12px;
+  }
+}
+
+
+/* ===== Banda destacada FAQ ===== */
+
+.faq-section {
+  position: relative;
+  padding: 90px 0 90px;
+
+  background:
+    linear-gradient(180deg,
+      var(--hub-deep2) 0%,
+      var(--hub-deep) 100%);
+
+  border-top: 1px solid rgba(255, 255, 255, .12);
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+}
+
+.faq-section::before,
+.faq-section::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 40px;
+  pointer-events: none;
+}
+
+.faq-section::before {
+  top: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, .35), transparent);
+}
+
+.faq-section::after {
+  bottom: 0;
+  background: linear-gradient(0deg, rgba(0, 0, 0, .35), transparent);
+}
+
+/* =========================
+   POPUP VICTORIA (REDISEÑO)
+   ========================= */
+
+.win-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeInOverlay 0.3s ease-out forwards;
+}
+
+.win-card {
+  position: relative;
+  width: min(100%, 460px);
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: #fff;
+  border-radius: 24px;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow:
+    0 20px 50px rgba(22, 163, 74, 0.35),
+    0 10px 20px rgba(0, 0, 0, 0.2);
+  transform: scale(0.8);
+  opacity: 0;
+  animation: popInCard 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.1s forwards;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.win-icon {
+  font-size: 52px;
+  margin-bottom: 16px;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  animation: bounceIcon 0.8s ease 0.4s both;
+  display: block;
+}
+
+.win-title {
+  font-size: 26px;
+  font-weight: 900;
+  margin: 0 0 8px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  line-height: 1.2;
+}
+
+.win-text {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 auto 28px;
+  opacity: 0.95;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  max-width: 80%;
+}
+
+.win-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.win-btn {
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.win-btn.primary {
+  background: #ffb400;
+  /* Naranja/Amarillo vibrante */
+  color: #050b12;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.win-btn.primary:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  background: #ffc107;
+}
+
+.win-btn.secondary {
+  background: rgba(0, 0, 0, 0.25);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.win-btn.secondary:hover {
+  background: rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+@keyframes fadeInOverlay {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popInCard {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes bounceIcon {
+
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+
+  40% {
+    transform: translateY(-10px);
+  }
+
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Autocomplete Active State (Keyboard Nav) */
+.suggestion-item:hover,
+.suggestion-item.active {
+  background: rgba(255, 255, 255, .08);
+  color: #fff;
+  outline: none;
+  /* remove default focus outline if any */
+}
+
+/* Ensure suggestions container handles overflow */
+.suggestions {
+  /* Ensure it has a max-height and scrolling if not already present */
+  max-height: 240px;
+  overflow-y: auto;
+}

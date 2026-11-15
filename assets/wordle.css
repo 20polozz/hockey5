@@ -1,0 +1,362 @@
+/* Hockey5 Wordle (lightweight, no framework) */
+
+
+/* Header tiles (top row + left col) */
+.tile.header {
+  padding: 10px 8px 34px;
+}
+
+.header .logo {
+  width: 68px;
+  height: 68px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, .4));
+}
+
+/* Si no tens logos reals, fem una insígnia estil "logo" */
+.logo-badge {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 950;
+  letter-spacing: .06em;
+  background: rgba(255, 255, 255, .06);
+  border: 2px solid rgba(255, 255, 255, .12);
+  color: rgba(255, 255, 255, .92);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, .35);
+}
+
+.header .strip {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 28px;
+  background: var(--cyan);
+  color: #001018;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  letter-spacing: .04em;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+body.wordle-page {
+  min-height: 100vh;
+}
+
+.w-wrap {
+  width: min(900px, 96vw);
+  margin: 0 auto;
+  padding: 16px 0 40px;
+}
+
+.w-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 18px 0 14px;
+}
+
+.w-title {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: 0.08em;
+}
+
+.w-sub {
+  opacity: 0.8;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+}
+
+.w-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.w-link {
+  color: inherit;
+  opacity: 0.85;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  padding-bottom: 2px;
+}
+
+.w-link:hover {
+  opacity: 1;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 76px;
+  background: rgba(10, 10, 10, 0.92);
+  color: #fff;
+  padding: 10px 12px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  max-width: min(520px, 92vw);
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+  z-index: 9999;
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+.w-board {
+  --tile: 44px;
+  --gap: 8px;
+  display: grid;
+  gap: 10px;
+  justify-content: center;
+  margin: 18px 0 18px;
+}
+
+.w-row {
+  display: grid;
+  gap: var(--gap);
+}
+
+.w-tile {
+  width: var(--tile);
+  height: var(--tile);
+  border-radius: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 18px;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.w-tile.filled {
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+/* Status colors */
+.w-tile.correct {
+  background: rgba(46, 204, 113, 0.28);
+  border-color: rgba(46, 204, 113, 0.65);
+}
+
+.w-tile.present {
+  background: rgba(241, 196, 15, 0.24);
+  border-color: rgba(241, 196, 15, 0.65);
+}
+
+.w-tile.absent {
+  background: rgba(127, 140, 141, 0.22);
+  border-color: rgba(127, 140, 141, 0.55);
+}
+
+.w-tile.revealed {
+  background: rgba(231, 76, 60, 0.35);
+  border-color: rgba(231, 76, 60, 0.75);
+  color: #fff;
+}
+
+.w-lose-actions {
+  margin-top: 22px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.w-keyboard {
+  width: min(680px, 96vw);
+  margin: 0 auto;
+  display: grid;
+  gap: 10px;
+}
+
+.w-krow {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+.w-key {
+  flex: 1;
+  min-width: 28px;
+  max-width: 44px;
+  height: 46px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  user-select: none;
+}
+
+.w-key.big {
+  flex: 1.4;
+  max-width: 84px;
+}
+
+.w-key:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.w-key.correct {
+  background: rgba(46, 204, 113, 0.35);
+  border-color: rgba(46, 204, 113, 0.75);
+}
+
+.w-key.present {
+  background: rgba(241, 196, 15, 0.3);
+  border-color: rgba(241, 196, 15, 0.75);
+}
+
+.w-key.absent {
+  background: rgba(127, 140, 141, 0.28);
+  border-color: rgba(127, 140, 141, 0.7);
+}
+
+.w-footer {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.w-btn {
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.w-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 420px) {
+  .w-board {
+    --tile: 38px;
+  }
+
+  .w-tile {
+    border-radius: 9px;
+  }
+
+  .w-key {
+    height: 44px;
+  }
+}
+
+/* Result modal */
+.w-modal[hidden] {
+  display: none !important;
+}
+
+.w-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+}
+
+.w-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(3px);
+}
+
+.w-modal-card {
+  position: relative;
+  width: min(420px, 92vw);
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(8, 20, 28, 0.96);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+  padding: 18px 18px 16px;
+  text-align: center;
+}
+
+.w-modal-title {
+  margin: 0 0 8px;
+  font-size: 22px;
+  letter-spacing: 0.02em;
+}
+
+.w-modal-sub {
+  margin: 0 0 16px;
+  opacity: 0.9;
+}
+
+.w-modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.w-modal-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-weight: 800;
+  cursor: pointer;
+  text-decoration: none;
+  min-width: 140px;
+}
+
+.w-modal-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.w-modal-btn.primary {
+  border-color: rgba(241, 196, 15, 0.75);
+  background: rgba(241, 196, 15, 0.18);
+}
+
+
+/* Copied from hockeygrid/assets/style.css to match title style */
+.hero-title {
+  margin: 10px 0 18px;
+  font-size: 42px;
+  letter-spacing: .02em;
+  font-weight: 900;
+  font-style: italic;
+  text-align: center;
+}
+
+.hero-accent {
+  color: #ffb400;
+  /* Match var(--yellow) from grid */
+}
+
+@media (max-width: 520px) {
+  .hero-title {
+    font-size: clamp(26px, 7vw, 42px);
+    margin: 10px 0 14px;
+  }
+}

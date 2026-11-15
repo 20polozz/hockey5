@@ -1,0 +1,29 @@
+name: Desplega a cdmon (FTP)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ftp-deploy:
+    name: Puja els canvis per FTP
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clona el repositori
+        uses: actions/checkout@v4
+
+      - name: Sincronitza per FTP amb el hosting
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          local-dir: ./
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            **/api/config.php

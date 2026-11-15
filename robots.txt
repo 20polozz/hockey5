@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /includes/
+Disallow: /database/
+Disallow: /tmp/
+
+Sitemap: https://www.hockey5.pro/sitemap.php
